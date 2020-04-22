@@ -1,7 +1,10 @@
 import React from 'react';
+import {Link} from  "react-router-dom"
+import EditMovieCard from "./EditMovieCard"
 
 const MovieCard = props => {
   const { title, director, metascore, stars } = props.movie;
+ 
   return (
     <div className="movie-card">
       <h2>{title}</h2>
@@ -18,6 +21,8 @@ const MovieCard = props => {
           {star}
         </div>
       ))}
+      <Link to= {{pathname: `/update-movie/${props.movie.id}`,state:props.movie}}><button>Edit</button>
+      </Link>
     </div>
   );
 };
