@@ -21,7 +21,7 @@ const MovieCard = props => {
           {star}
         </div>
       ))}
-      <Link to= {`/update-movie/${props.movie.id}`}><button>Edit</button>
+      <Link to= {{pathname: `/update-movie/${props.movie.id}`,state:props.movie}}><button>Edit</button>
       </Link>
     </div>
   );

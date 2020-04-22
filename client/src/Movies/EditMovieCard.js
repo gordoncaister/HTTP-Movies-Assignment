@@ -4,52 +4,66 @@ import { useRouteMatch } from 'react-router-dom';
 import { useInput } from "../utils/useInput"
 
 const EditMovieCard = () => {
-    const [movie, setMovie] = useState({
-        id: null,
-        title: '',
-        director: '',
-        metascore: null,
-        stars: [],
-    });
+    
+    const [movie, setMovie] = useState({id:"",title:"",director:"",metascore:"",stars:[]});
 
-    const [title, setTitle, handleTitle] = useInput(movie.title);
-    const [director, setDirector, handleDirector] = useInput(movie.director);
-    const [metascore, setMetascore, handleMetascore] = useInput(movie.metascore);
-    const [stars, setStars, handleStars] = useInput(movie.stars);    
+    const [id, setId, handleId] = useInput("");
+    const [title, setTitle, handleTitle] = useInput("");
+    const [director, setDirector, handleDirector] = useInput("");
+    const [metascore, setMetascore, handleMetascore] = useInput("");
+    const [stars, setStars, handleStars] = useInput([]);    
 
     
     const match = useRouteMatch();
 
-    const fetchMovie = id => {
-        console.log("Fetchmovie")
-        axios
-        .get(`http://localhost:5000/api/movies/${id}`)
-        .then(res => setMovie(res.data))
-        .catch(err => console.log(err.response));
-    };
+    console.log("match",match)
 
-    useEffect(() => {
-        console.log("useEfefct")
-        fetchMovie(match.params.id);
+    const fetchMovie = id => {
+        axios
+          .get(`http://localhost:5000/api/movies/${id}`)
+          .then(res => setMovie(res.data))
+          .catch(err => console.log(err.response));
+      };
+
+
+    useEffect(() => { 
+        fetchMovie(match.params.id)
+        console.log(1,movie)
         setTitle(movie.title)
         setDirector(movie.director)
         setMetascore(movie.metascore)
         setStars(movie.stars)
-    }, [match.params.id,movie]);
+    }, [match.params.id,movie.id]);
 
+
+    console.log(2)
+
+
+    // if(movie.id==match.params.id){
+    //     setTitle(movie.title)
+    //     console.log("setting title")
+    // }
+    console.log("movie",movie)
+    console.log("title",title)
 
     if (!movie) {
         return <div>Loading movie information...</div>;
     }
-
     
-    
-    console.log("movie",movie)
+   
 
   return (
     <form className="movie-card">
-        
-      <h2>{title}</h2>
+        <label htmlFor="title"><h2>Title: {title}{"  "}
+                    <input
+                    id="title"
+                    name="title"
+                    onChange={e => handleTitle(e.target.value)}
+                    placeholder="title"
+                    type="text"
+                    value={title}
+        />
+        </h2></label>
       <div className="movie-director">
         Director: <em>{director}</em>
       </div>
